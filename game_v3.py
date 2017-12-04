@@ -1,8 +1,8 @@
-# In our first version of this game, we'll allow players to have unlimited guesses. This will allow us to simplify the game
-# and build it incrementally rather than tackling the entire game on the first pass.
+# In our second version of Hangman, we'll limit the total number of guesses to 6 (the number of parts in our hangman)
 
 import os	#import os class to allow for clearing of terminal screen
 import random
+import re
 
 os.system('clear')
 
@@ -32,23 +32,15 @@ for x in range(0,len(word)):
 hit = 0
 miss = 0
 
-while (hit < len(word)):
-	guess_state = 'miss'
-	guess = input("What letter do you guess? ")
-	for x in range(0,len(word)):
-		if(guess == word[x]):
-			guess_state = 'hit'
-			word_build[x] = word[x]
-			hit += 1
+def get_guess():
+	while True:
+		guess = input("What letter do you guess? ")
+		if(len(guess) > 1):
+			print("Please enter a single letter only.")
+		elif(not re.search('[a-zA-Z]',guess)):
+			print("Only letters, please.")
+		else:
+			return guess 
 
-	if(guess_state == 'miss'):
-		miss += 1
-
-	print("\n  ",end='')
-	for x in range(0,len(word_build)):
-		print(word_build[x],end='')
-	print("\n")
-	print("  Hit = " + str(hit) + "    Miss = " + str(miss) + "\n")
-
-
-print("Congratulations! You win!")
+guess = get_guess();
+print(guess)

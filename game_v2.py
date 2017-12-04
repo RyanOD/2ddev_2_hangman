@@ -1,5 +1,5 @@
-# In our first version of this game, we'll allow players to have unlimited guesses. This will allow us to simplify the game
-# and build it incrementally rather than tackling the entire game on the first pass.
+# In the second version of our hangman game, we will deal with ability to guess the same letter multiple times and
+# introduce words with repeating letters
 
 import os	#import os class to allow for clearing of terminal screen
 import random
@@ -22,33 +22,34 @@ hang_state = [
 
 print("Welcome to Hangman!")
 
-guess_limit = 6
-word_num = random.randint(0,len(words) - 1)
-word = list(words[word_num])
-word_build = []
-for x in range(0,len(word)):
-	word_build.append("_")
-
 hit = 0
 miss = 0
 
-while (hit < len(word)):
-	guess_state = 'miss'
-	guess = input("What letter do you guess? ")
-	for x in range(0,len(word)):
-		if(guess == word[x]):
-			guess_state = 'hit'
-			word_build[x] = word[x]
-			hit += 1
+word = list(words[random.randint(0,len(words) - 1)])		# list function converts string into array by character
+word_build = []
+guess_tracker = []
 
-	if(guess_state == 'miss'):
+for x in range(0,len(word)):
+	word_build.append("_")
+
+while (hit < len(word)):
+	guess = input("What letter do you guess? ")
+
+	if guess in guess_tracker:
+		print("You already guessed that letter. Please try again.")
+		continue
+
+	elif guess in word:
+		guess_tracker.append(guess)
+		word_build[word.index(guess)] = guess
+		hit += 1
+
+	else:
+		guess_tracker.append(guess)
 		miss += 1
 
-	print("\n  ",end='')
-	for x in range(0,len(word_build)):
-		print(word_build[x],end='')
-	print("\n")
-	print("  Hit = " + str(hit) + "    Miss = " + str(miss) + "\n")
-
+	for x in word_build:
+		print(x,end='')
+	print("     Hit = " + str(hit) + "    Miss = " + str(miss) + "\n")
 
 print("Congratulations! You win!")
