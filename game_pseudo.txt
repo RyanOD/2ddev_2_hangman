@@ -1,0 +1,26 @@
+welcome player
+introduce to game
+choose secret word
+create "hit" and "miss" variables and set to zero
+
+as long as miss variable is less 6 (number of hangman parts)
+	prompt user for letter
+	if letter has already been submitted
+		start over and ask for a letter
+	
+	if letter is not in the secret word
+		increment "miss" by 1
+	else
+		for each occurrence of guess in word
+			copy letter into word_build
+	
+	copy letter into word_guesses
+	output hangman graphic with position based on value of "miss"
+	output word_build
+
+if hit i
+
+v1 - unlimited guesses, no text graphics, no words with repeating letters, no error checking
+v2 - no words with repeating letters, no error checking
+v3 - no error checking
+v4 - full game

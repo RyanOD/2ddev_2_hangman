@@ -1,5 +1,5 @@
 # In our first version of this game, we'll allow players to have unlimited guesses. This will allow us to simplify the game
-# and build it incrementally rather than tackling the entire game on the first pass.
+# and build it incrementally rather than tackling the entire game on the first pass. There will also be no error handling.
 
 import os	#import os class to allow for clearing of terminal screen
 import random

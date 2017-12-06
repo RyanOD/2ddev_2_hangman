@@ -1,13 +1,12 @@
-# In the second version of our hangman game, we will deal with ability to guess the same letter multiple times and
-# introduce words with repeating letters
+# In the second version of our hangman game, we track which letters have been guessed and ask the player to guess a new
+# letter if they mistakenly choose the same letter more than once. The second version of this game is a major refactoring of the first.
 
 import os	#import os class to allow for clearing of terminal screen
 import random
 
 os.system('clear')
 
-words = ["apron","alien","bacon","blade","cabin","curve","drone","ditch","elbow","epoxy","fancy","flyer","gecko","ghost","horse",
-		 "human","jumbo","junky","klutz","knife","mango","mouse"]
+words = ["appprooon"]
 
 hang_state = [
 	"\t ______\n\t |   |\n\t |\n\t |\n\t |\n\t |\n\t |\n\toooo",
@@ -19,6 +18,8 @@ hang_state = [
 	"\t ______\n\t |   |\n\t |   O\n\t |  /|\\\n\t |   |\n\t |  /\n\t |\n\toooo",
 	"\t ______\n\t |   |\n\t |   O\n\t |  /|\\\n\t |   |\n\t |  / \\\n\t |\n\toooo"
 ]
+
+prohibited_list = ['','1','2','3','4','5','6','7','8','9','0']
 
 print("Welcome to Hangman!")
 
@@ -35,21 +36,49 @@ for x in range(0,len(word)):
 while (hit < len(word)):
 	guess = input("What letter do you guess? ")
 
+	if guess in prohibited_list:
+		print("Please input letters only...")
+		continue
+
 	if guess in guess_tracker:
 		print("You already guessed that letter. Please try again.")
 		continue
 
-	elif guess in word:
+	guess_tracker.append(guess)
+
+	if guess in word:
+		for x in range(0,len(word)):
+			if(word[x] == guess):
+				word_build[x] = guess
+	else:
+		miss += 1
+
+	print(hang_state[miss],end="\n\n\t")
+	
+	for x in word_build:
+		print(x,end='')
+	print("\n")
+
+
+
+
+	if guess in word:
 		guess_tracker.append(guess)
-		word_build[word.index(guess)] = guess
-		hit += 1
+		for x in range(0,len(word)):
+			if(word[x] == guess):
+				word_build[x] = guess
+				hit += 1
+		print(hang_state[miss],end="\n\n\t")
+		for x in word_build:
+			print(x,end='')
+		print("\n")
+		if hit == len(word):
+			print("Congratulations! You win!")
+			break
 
 	else:
 		guess_tracker.append(guess)
 		miss += 1
-
-	for x in word_build:
-		print(x,end='')
-	print("     Hit = " + str(hit) + "    Miss = " + str(miss) + "\n")
-
-print("Congratulations! You win!")
+		if miss == len(word):
+			print("You lose")
+			break;

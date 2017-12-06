@@ -31,11 +31,28 @@ word = list(words[random.randint(0,len(words) - 1)])		# list function converts s
 word_build = []
 guess_tracker = []
 
+def get_guess():
+	while True:
+		guess = input("What letter do you guess? ")
+		if(len(guess) > 1):
+			print("Please enter a single letter only.")
+		elif(not re.search('[a-zA-Z]',guess)):
+			print("Only letters, please.")
+		else:
+			return guess
+
 for x in range(0,len(word)):
 	word_build.append("_")
 
 while (hidden_hit < len(word)):
-	guess = input("What letter do you guess? ")
+	guess = get_guess()
+
+
+
+
+
+
+
 
 	if guess in guess_tracker:
 		print("You already guessed that letter. Please try again.")
